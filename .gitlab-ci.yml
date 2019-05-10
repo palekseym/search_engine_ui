@@ -3,7 +3,7 @@ image: docker:latest
 stages:
   - build
   - unittest
-  - deploy
+  - release
 
 build:
   stage: build
@@ -21,13 +21,18 @@ test:
   script:
     - docker run "$CI_PROJECT_PATH:$CI_COMMIT_REF_SLUG" python -m unittest discover -s tests/
 
-deploy:
-  stage: deploy
+release:
+  stage: release
   services:
     - docker:dind
   script:
-    - install_helm
-    - helm ls
+    - docker_hub_login
+    - docker build -t "$CI_PROJECT_PATH:$CI_COMMIT_REF_SLUG" .
+    - export
+  only:
+    tags:
+      - /^\d\.\d\.\d$/i
+
 
 
 .helper_functions: &helper_functions |
