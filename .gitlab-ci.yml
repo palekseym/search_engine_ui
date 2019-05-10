@@ -30,8 +30,7 @@ release:
     - docker build -t "$CI_PROJECT_PATH:$CI_COMMIT_REF_SLUG" .
     - export
   only:
-    tags:
-      - /^\d\.\d\.\d$/i
+    - tags
 
 
 
