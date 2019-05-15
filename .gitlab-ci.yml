@@ -36,6 +36,7 @@ staging:
   script:
     - install_helm
     - echo $CI_PROJECT_PATH
+    - export
     - git clone "http://gitlab-ci-ip/$CI_PROJECT_PATH/search_engine_deploy.git"
     - helm dep update search_engine_deploy/release
     - helm upgrade --install --wait --namespace="$KUBE_NAMESPACE" "crawler-stage" release
