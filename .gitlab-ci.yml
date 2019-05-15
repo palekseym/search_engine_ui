@@ -35,7 +35,7 @@ staging:
   stage: staging
   
   script:
-    - install_helm
+    # - install_helm
     - ping gitlab-ci-ip
 
   variables:
