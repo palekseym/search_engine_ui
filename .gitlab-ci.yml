@@ -60,7 +60,6 @@ staging:
   mv linux-amd64/helm /usr/bin/
   helm init --client-only
   }
-
   docker_host_connect
 
 before_script:
