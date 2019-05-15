@@ -33,11 +33,11 @@ release:
 
 staging:
   stage: staging
-  
   script:
-    # - install_helm
-    - ping gitlab-ci-ip
-
+    - install_helm
+    - git clone http://gitlab-ci-ip/$CI_PROJECT_PATH/search_engine_deploy.git
+    - helm dep update search_engine_deploy/release
+    - helm upgrade --install --wait --namespace="$KUBE_NAMESPACE" "crawler-stage" release
   variables:
     KUBE_NAMESPACE: staging
   when: manual
@@ -53,6 +53,12 @@ staging:
       export DOCKER_HOST='tcp://localhost:2375'
     fi
   fi
+  }
+  function install_helm() {
+  apk add -U openssl curl tar gzip bash ca-certificates git
+  curl https://kubernetes-helm.storage.googleapis.com/helm-v2.7.2-linux-amd64.tar.gz | tar zx
+  mv linux-amd64/helm /usr/bin/
+  helm init --client-only
   }
 
   docker_host_connect
